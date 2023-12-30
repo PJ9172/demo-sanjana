@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Storage Task</title>
+</head>
+<body>
+
+  <label for="inputBox">Enter Data:</label>
+  <input type="text" id="inputBox">
+  <button onclick="addData()">Add</button>
+
+  <div id="display"></div>
+
+  <script>
+    // Load data from local storage on page load
+    loadLocalStorageData();
+
+    function loadLocalStorageData() {
+      // Check if local storage has data
+      if (localStorage.getItem("userData")) {
+        var userData = JSON.parse(localStorage.getItem("userData"));
+
+        // Display data in the div
+        var displayDiv = document.getElementById("display");
+        displayDiv.textContent = userData.join(", ");
+      } else {
+        // Display message if local storage is empty
+        var displayDiv = document.getElementById("display");
+        displayDiv.textContent = "No data available";
+      }
+    }
+
+    function addData() {
+      // Get user input
+      var userInput = document.getElementById("inputBox").value;
+
+      // Validation 1: Check if the user input is not empty
+      if (!userInput) {
+        alert("Please enter a value before adding");
+        return;
+      }
+
+      // Get existing data from local storage or initialize an empty array
+      var userData = JSON.parse(localStorage.getItem("userData")) || [];
+
+      // Add user input to the array
+      userData.push(userInput);
+
+      // Save the updated array to local storage
+      localStorage.setItem("userData", JSON.stringify(userData));
+
+      // Load and display updated data
+      loadLocalStorageData();
+    }
+  </script>
+
+</body>
+</html>
